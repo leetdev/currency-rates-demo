@@ -15,6 +15,5 @@ Route::get('/', function () {
     return view('index');
 })->middleware('auth');
 
-Route::get('login', function () {
-    return view('login');
-})->name('login');
+Route::get('login/{provider?}', 'LoginController@login')->name('login');
+Route::get('login/{provider?}/callback', 'LoginController@auth')->name('auth');
