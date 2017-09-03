@@ -21,12 +21,15 @@ class BasicHttpTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_login_page_content()
+    {
+        $response = $this->get('/login');
+        $response->assertSee('Currency Exchange Rates');
+    }
+
     public function test_oauth_provider_login_redirect()
     {
-        // NOTE: this assumes that at least Google login is configured.
-        // If you're gonna replace it, then change this to your default provider
         $provider = $this->provider;
-
         $response = $this->get("/login/$provider");
         $response->assertStatus(302);
     }
@@ -35,5 +38,12 @@ class BasicHttpTest extends TestCase
     {
         $response = $this->get('/login/dummy');
         $response->assertStatus(404);
+    }
+
+    public function test_logout_redirect_to_login_page()
+    {
+        $response = $this->get('/logout');
+        $response->assertStatus(302)
+            ->assertRedirect('/login');
     }
 }
