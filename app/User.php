@@ -26,4 +26,20 @@ class User extends Authenticatable
     protected $hidden = [
         'remember_token'
     ];
+
+    /**
+     * Get the favourite calculation for this user.
+     */
+    public function favouriteCalculation()
+    {
+        return $this->belongsTo('App\CurrencyCalculation');
+    }
+
+    /**
+     * Get currency calculations for this user.
+     */
+    public function currencyCalculations()
+    {
+        return $this->hasMany('App\CurrencyCalculation');
+    }
 }
