@@ -2,12 +2,15 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 // Test basic application functionality
 class BasicHttpTest extends TestCase
 {
+    // Default OAuth provider. Change if necessary
+    private $provider = 'google';
+
     public function test_index_redirect_to_login_page()
     {
         $response = $this->get('/');
@@ -22,7 +25,7 @@ class BasicHttpTest extends TestCase
     {
         // NOTE: this assumes that at least Google login is configured.
         // If you're gonna replace it, then change this to your default provider
-        $provider = $google;
+        $provider = $this->provider;
 
         $response = $this->get("/login/$provider");
         $response->assertStatus(302);
