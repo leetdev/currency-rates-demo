@@ -25,13 +25,6 @@ class BasicHttpTest extends TestCase
         $response->assertSee('Currency Exchange Rates');
     }
 
-    public function test_oauth_provider_login_redirect()
-    {
-        $provider = $this::DEFAULT_PROVIDER;
-        $response = $this->get("/login/$provider");
-        $response->assertStatus(302);
-    }
-
     public function test_oauth_provider_not_configured()
     {
         $response = $this->get('/login/dummy');
