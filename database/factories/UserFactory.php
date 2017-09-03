@@ -17,9 +17,11 @@ $factory->define(App\User::class, function (Faker $faker) {
     static $password;
 
     return [
+        'provider' => 'google',
+        'provider_id' => (string)mt_rand() * mt_rand(),
         'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
+        'email' => $faker->safeEmail,
+        'avatar' => trim(str_replace('.html', '', $faker->url), '/') . '/' . mt_rand() . '/' . mt_rand() . '.jpg',
         'remember_token' => str_random(10),
     ];
 });

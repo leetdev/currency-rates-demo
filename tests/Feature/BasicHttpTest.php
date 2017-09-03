@@ -8,8 +8,6 @@ use Tests\TestCase;
 // Test basic application functionality
 class BasicHttpTest extends TestCase
 {
-    // Default OAuth provider. Change if necessary
-    private $provider = 'google';
 
     public function test_index_redirect_to_login_page()
     {
@@ -29,7 +27,7 @@ class BasicHttpTest extends TestCase
 
     public function test_oauth_provider_login_redirect()
     {
-        $provider = $this->provider;
+        $provider = $this::DEFAULT_PROVIDER;
         $response = $this->get("/login/$provider");
         $response->assertStatus(302);
     }
