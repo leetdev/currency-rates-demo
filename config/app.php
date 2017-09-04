@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Tallinn',
 
     /*
     |--------------------------------------------------------------------------
@@ -127,6 +127,34 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Custom Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Custom, application-specific settings here.
+    |
+    | Currencies: array of available currency ISO codes
+    | Default currencies: array of default base/target currencies
+    | Min/max duration: configure allowed report duration range (in weeks)
+    |
+    */
+
+    'currencies' => [
+        'AUD', 'BGN', 'BRL', 'CAD', 'CHF', 'CNY', 'CZK', 'DKK', 'EUR', 'GBP',
+        'HKD', 'HRK', 'HUF', 'IDR', 'ILS', 'INR', 'JPY', 'KRW', 'MXN', 'MYR',
+        'NOK', 'NZD', 'PHP', 'PLN', 'RON', 'RUB', 'SEK', 'SGD', 'THB', 'TRY',
+        'USD', 'ZAR'
+    ],
+
+    'default_currencies' => ['EUR', 'USD'],
+
+    'min_duration' => 5,
+
+    'max_duration' => 52,
+
+    'default_duration' => 25,
+
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |
@@ -168,6 +196,7 @@ return [
          * Package Service Providers...
          */
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -227,7 +256,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
     ],
 
 ];
