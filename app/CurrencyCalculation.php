@@ -28,4 +28,12 @@ class CurrencyCalculation extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    /**
+     * Get the cached calculation results.
+     */
+    public function weeks()
+    {
+        return $this->hasMany('App\CalculationWeek', 'calculation_id');
+    }
 }

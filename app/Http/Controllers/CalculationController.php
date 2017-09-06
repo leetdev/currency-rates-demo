@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Calculator;
 use App\CurrencyCalculation;
 use App\Http\Requests\StoreCalculationRequest;
 use Illuminate\Http\Request;
@@ -92,14 +93,21 @@ class CalculationController extends Controller
      * Display the specified calculation.
      *
      * @param  \App\CurrencyCalculation  $calculation
+     * @param  \App\Calculator           $calc
      * @return \Illuminate\Http\Response
      */
-    public function show(CurrencyCalculation $calculation)
+    public function show(CurrencyCalculation $calculation, Calculator $calc)
     {
         // make sure user owns this calculation
         $this->authorize('access', $calculation);
 
-        //
+        // prepare calculation results
+        $calc->prepare($calculation);
+
+        // render results
+        return view('calculations.show', [
+            'parameters' => $calculation,
+        ]);
     }
 
     /**

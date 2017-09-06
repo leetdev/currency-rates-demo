@@ -7,3 +7,7 @@ li {
 .social-buttons {
     margin-top: 1rem;
 }
+ul.parameters li {
+    display: inline-block;
+    margin: .5rem;
+}

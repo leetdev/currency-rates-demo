@@ -136,6 +136,9 @@ return [
     | Default currencies: array of default base/target currencies
     | Min/max duration: configure allowed report duration range (in weeks)
     |
+    | API cache expiry: how often (in minutes) in maximum to query currency API
+    | for latest rates
+    |
     */
 
     'currencies' => [
@@ -152,6 +155,8 @@ return [
     'max_duration' => 52,
 
     'default_duration' => 25,
+
+    'currency_apiquery_cache_expire_time' => 10,
 
     /*
     |--------------------------------------------------------------------------
