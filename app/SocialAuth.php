@@ -6,6 +6,10 @@ use Socialite;
 
 use App\Exceptions\SocialAuthException;
 
+/**
+ * Utility class that wraps Socialite authentication functionality
+ *
+ */
 class SocialAuth
 {
     // Redirects user to provider login page
