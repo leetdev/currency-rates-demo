@@ -11,20 +11,20 @@ class Result implements ResultContract
      * The Base currency the result was returned in
      * @var string
      */
-    private $base;
+    protected $base;
 
     /**
      * The date the result was generated for
      * @var DateTime
      */
 
-    private $date;
+    protected $date;
 
     /**
      * All of the rates returned
      * @var array
      */
-    private $rates;
+    protected $rates;
 
     /**
      * Result constructor.
@@ -99,8 +99,9 @@ class Result implements ResultContract
      */
     public function __get($name)
     {
-        if (property_exists($this, $name)) {
-            return $this->$name;
+        $getter = 'get' . ucfirst($name);
+        if (method_exists($this, $getter)) {
+            return $this->$getter();
         }
 
         return null;
