@@ -25,7 +25,8 @@
             "database/factories"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Ultraleet\\": "library/ultraleet/"
         }
     },
     "autoload-dev": {
