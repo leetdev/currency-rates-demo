@@ -3,7 +3,7 @@
   <li>Currency: <b>{{ $parameters->target }}</b></li>
 </ul>
 
-<table class="table table-sm">
+<table class="table table-sm table-hover">
   <thead>
     <tr>
       <th>Week</th>
@@ -21,3 +21,7 @@
     </tr>
   @endforeach
 </table>
+<hr />
+<h3>Highest and lowest weekly rates</h3>
+<div id="rate-chart"></div>
+{!! Lava::render('LineChart', 'Weeks', 'rate-chart') !!}

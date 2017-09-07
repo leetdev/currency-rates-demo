@@ -89,6 +89,10 @@ ini_set('max_execution_time', 0);
         }
 
         // prepare chart data
+        $chartData = \Lava::DataTable();
+        $chartData->addDateColumn('Week')
+            ->addNumberColumn('Highest')
+            ->addNumberColumn('Lowest');
 
         // get latest rate for profit calculation
         $latestRate = $this->getCurrencyRate(
@@ -100,6 +104,10 @@ ini_set('max_execution_time', 0);
         // populate chart data & find highest and lowest weeks & calculate profits
         $hi = $lo = $h = $l = 0;
         foreach ($weeks as $week) {
+            // add chart row
+            $w = sprintf('%d-W%02d', $week->year, $week->week);
+            $day = date('Y-m-d', strtotime($w));
+            $chartData->addRow([$day, $week->rate_max, $week->rate_min]);
 
             // update hilo
             if (!$h || $week->amount > $h) {
@@ -117,7 +125,7 @@ ini_set('max_execution_time', 0);
 
         // store results
         $this->weeks = $weeks;
-        $this->chartData = 'TODO';
+        $this->chartData = $chartData;
         $this->hilo = [$hi, $lo];
     }
 

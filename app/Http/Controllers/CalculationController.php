@@ -104,11 +104,13 @@ class CalculationController extends Controller
         // prepare calculation results
         $calc->prepare($calculation);
 
+        // prepare chart
+        \Lava::LineChart('Weeks', $calc->chart(), []);
+
         // render results
         return view('calculations.show', [
             'parameters' => $calculation,
             'weeks' => $calc->weeks(),
-            'chart' => $calc->chart(),
             'hilo' => $calc->hilo(),
         ]);
     }
