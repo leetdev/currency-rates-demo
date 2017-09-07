@@ -22,7 +22,6 @@ class CreateCalculationWeeksTable extends Migration
             $table->float('rate_max')->unsigned();
             $table->float('rate_min')->unsigned();
             $table->decimal('amount', 10, 2)->unsigned();
-            $table->decimal('profit', 10, 2)->unsigned();
             $table->boolean('complete');
             $table->date('last_day');
 

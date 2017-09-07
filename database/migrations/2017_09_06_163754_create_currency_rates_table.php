@@ -17,7 +17,6 @@ class CreateCurrencyRatesTable extends Migration
             $table->date('date');
             $table->string('currency', 3);
             $table->float('rate');
-            $table->timestamps();
 
             $table->unique(['date', 'currency']);
         });
