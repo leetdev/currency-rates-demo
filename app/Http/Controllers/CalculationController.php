@@ -107,6 +107,9 @@ class CalculationController extends Controller
         // render results
         return view('calculations.show', [
             'parameters' => $calculation,
+            'weeks' => $calc->weeks(),
+            'chart' => $calc->chart(),
+            'hilo' => $calc->hilo(),
         ]);
     }
 

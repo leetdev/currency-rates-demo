@@ -18,9 +18,9 @@ class CreateCalculationWeeksTable extends Migration
             $table->integer('calculation_id')->unsigned();
             $table->smallInteger('year')->unsigned();
             $table->tinyInteger('week')->unsigned();
-            $table->float('rate')->unsigned();
-            $table->float('rate_max')->unsigned();
-            $table->float('rate_min')->unsigned();
+            $table->float('rate', 10, 5)->unsigned();
+            $table->float('rate_max', 10, 5)->unsigned();
+            $table->float('rate_min', 10, 5)->unsigned();
             $table->decimal('amount', 10, 2)->unsigned();
             $table->boolean('complete');
             $table->date('last_day');

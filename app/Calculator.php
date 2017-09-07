@@ -11,9 +11,13 @@ use Illuminate\Support\Facades\Cache;
  */
 class Calculator
 {
-    protected $parameters;
+    // used for storing results
     protected $weeks;
     protected $chartData;
+    protected $hilo;
+
+    // used internally
+    protected $parameters;
     protected $latestDate;
     protected $latest;
 
@@ -32,6 +36,7 @@ class Calculator
      */
     public function prepare(CurrencyCalculation $calculation)
     {
+ini_set('max_execution_time', 0);
         $this->parameters = $calculation;
         $today = date('Y-m-d');
         $weekNumber = date('W');
@@ -65,7 +70,7 @@ class Calculator
             }
         } else {
             // set the week pointer to first week we need to include in the report
-            $needsUpdate = date('Y-m-d', strtotime('Monday this Week -' . $calculation->duration . ' Weeks ' . $latestDate));
+            $needsUpdate = date('Y-m-d', strtotime($latestDate . ' Monday this Week -' . $calculation->duration . ' Weeks '));
         }
 
         // update results
@@ -85,13 +90,35 @@ class Calculator
 
         // prepare chart data
 
-        // populate chart data
+        // get latest rate for profit calculation
+        $latestRate = $this->getCurrencyRate(
+            $this->getLatest(),
+            $this->parameters->base,
+            $this->parameters->target
+        );
+
+        // populate chart data & find highest and lowest weeks & calculate profits
+        $hi = $lo = $h = $l = 0;
         foreach ($weeks as $week) {
 
+            // update hilo
+            if (!$h || $week->amount > $h) {
+                $h = $week->amount;
+                $hi = $week->id;
+            }
+            if (!$l || $week->amount < $l) {
+                $l = $week->amount;
+                $lo = $week->id;
+            }
+
+            // profit
+            $week->profit = $week->amount - $this->parameters->amount * $latestRate;
         }
 
         // store results
         $this->weeks = $weeks;
+        $this->chartData = 'TODO';
+        $this->hilo = [$hi, $lo];
     }
 
     /**
@@ -102,7 +129,27 @@ class Calculator
      */
     public function weeks()
     {
-        return $weeks;
+        return $this->weeks;
+    }
+
+    /**
+     * Provides the chart data for the view.
+     *
+     * @return DataTable [FIXDOC]
+     */
+    public function chart()
+    {
+        return $this->chartData;
+    }
+
+    /**
+     * Return highest/lowest historical week IDs
+     *
+     * @return array
+     */
+    public function hilo()
+    {
+        return $this->hilo;
     }
 
     /**
