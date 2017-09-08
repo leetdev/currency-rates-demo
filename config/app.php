@@ -209,7 +209,7 @@ return [
         Ultraleet\CurrencyRates\CurrencyRatesServiceProvider::class,
 
         // remove before deployment!
-        Barryvdh\Debugbar\ServiceProvider::class,
+        //Barryvdh\Debugbar\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -275,7 +275,7 @@ return [
         'CurrencyRates' => Ultraleet\CurrencyRates\Facades\CurrencyRates::class,
 
         // remove before deployment!
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        //'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 
 ];
