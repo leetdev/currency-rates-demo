@@ -26,7 +26,7 @@ class CalculationController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, Calculator $calc)
     {
         $user = $request->user();
 
@@ -44,10 +44,20 @@ class CalculationController extends Controller
                 $favourite = $calculations->first();
             }
         }
+
+        // prepare favourite calculation results
+        $calc->prepare($favourite);
+
+        // prepare chart
+        \Lava::LineChart('Weeks', $calc->chart(), []);
+
         // render the page
         return view('index', [
             'calculations' => $calculations,
             'favourite' => $favourite,
+            'parameters' => $favourite,
+            'weeks' => $calc->weeks(),
+            'hilo' => $calc->hilo(),
         ]);
     }
 

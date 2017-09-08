@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+  <h3>Favourite calculation results</h3>
+  @include('partials.results')
+
+  <h3>Presets</h3>
   <table class="table">
     <thead class="thead-default">
       <tr>
