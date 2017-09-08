@@ -48,7 +48,8 @@ class CacheCurrencyRates extends Command
      */
     public function handle()
     {
-        $latestDate = $this->calculator->getLatest()->first()->date;
+        $latest = $this->calculator->getLatest();
+        $latestDate = !$latest->isEmpty() ? $latest->first()->date : date('Y-m-d');
         $weeks = config('app.max_duration');
         $needsUpdate = date('Y-m-d', strtotime("$latestDate Monday this Week -$weeks Weeks "));
 
