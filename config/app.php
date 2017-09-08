@@ -141,6 +141,8 @@ return [
     |
     */
 
+    'currency_api' => 'dummy',
+
     'currencies' => [
         'AUD', 'BGN', 'BRL', 'CAD', 'CHF', 'CNY', 'CZK', 'DKK', 'EUR', 'GBP',
         'HKD', 'HRK', 'HUF', 'IDR', 'ILS', 'INR', 'JPY', 'KRW', 'MXN', 'MYR',
@@ -203,6 +205,7 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
+        Ultraleet\CurrencyRates\CurrencyRatesServiceProvider::class,
 
         // remove before deployment!
         Barryvdh\Debugbar\ServiceProvider::class,
@@ -268,6 +271,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Lava' => Khill\Lavacharts\Laravel\LavachartsFacade::class,
+        'CurrencyRates' => Ultraleet\CurrencyRates\Facades\CurrencyRates::class,
 
         // remove before deployment!
         'Debugbar' => Barryvdh\Debugbar\Facade::class,

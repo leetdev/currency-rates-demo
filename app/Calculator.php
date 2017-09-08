@@ -265,13 +265,12 @@ ini_set('max_execution_time', 0);
     protected function query($date = null)
     {
         // run api query
-        // DUMMY RESULTS FOR NOW
-        $date = $date ?: date('Y-m-d');
-        $res = [];
-        foreach (config('app.currencies') as $currency) {
-            $res[$currency] = mt_rand(10000, 150000) / 100000;
+        $api = \CurrencyRates::driver(config('app.currency_api'));
+        if ($date) {
+            $results = $api->historical(new \DateTime($date), 'EUR');
+        } else {
+            $results = $api->latest('EUR');
         }
-        $results = new \Ultraleet\CurrencyRates\Result('EUR', new \DateTime($date), $res);
 
         // verify that we got the results we asked for
         if ($date && $results->date->format('Y-m-d') !== $date) {
@@ -282,7 +281,7 @@ ini_set('max_execution_time', 0);
         $rates = collect([]);
         foreach ($results->rates as $currency => $value) {
             $rate = new CurrencyRate;
-            $rate->date = $date;
+            $rate->date = $results->date;
             $rate->currency = $currency;
             $rate->rate = $value;
             $rate->save();
