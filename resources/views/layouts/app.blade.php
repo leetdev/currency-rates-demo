@@ -13,9 +13,11 @@
   </head>
   <body>
     <div class="container">
-      <h1 class="text-center">Currency Exchange Rates</h1>
+      <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="{{ url('/') }}">Currency Exchange Rates</a>
 
-      @includeWhen(Auth::check(), 'partials.user')
+        @includeWhen(Auth::check(), 'partials.user')
+      </nav>
 
       <h3>@yield('title')</h3>
 
