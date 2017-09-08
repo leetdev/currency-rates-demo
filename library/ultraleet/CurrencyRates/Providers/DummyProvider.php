@@ -42,7 +42,7 @@ class DummyProvider extends AbstractProvider
     /**
      * Get historical currency exchange rates.
      *
-     * @param  \DateTime $base
+     * @param  \DateTime $date
      * @param  string    $base
      * @param  array     $targets
      * @return \Ultraleet\CurrencyRates\Contracts\Result

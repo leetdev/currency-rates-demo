@@ -4,11 +4,22 @@ namespace Ultraleet\CurrencyRates;
 
 use Ultraleet\CurrencyRates\Contracts\Factory;
 use Ultraleet\CurrencyRates\Providers\DummyProvider;
+use Ultraleet\CurrencyRates\Providers\FixerProvider;
 use Illuminate\Support\Manager;
 use InvalidArgumentException;
 
 class CurrencyRatesManager extends Manager implements Factory
 {
+
+    /**
+     * Create an instance of the specified driver.
+     *
+     * @return \Laravel\Socialite\One\AbstractProvider
+     */
+    protected function createFixerDriver()
+    {
+        return new FixerProvider($this->app['request']);
+    }
 
     /**
      * Create an instance of the specified driver.

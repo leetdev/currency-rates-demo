@@ -23,5 +23,16 @@ abstract class AbstractProvider implements ProviderContract
     public function __construct(Request $request)
     {
         $this->request = $request;
+        $this->init();
+    }
+
+    /**
+     * Perform provider specific initialization.
+     *
+     * @return void
+     */
+    public function init()
+    {
+
     }
 }
