@@ -132,6 +132,7 @@ return [
     |
     | Custom, application-specific settings here.
     |
+    | Currency API: API provider to use (available out of the box: 'fixer', 'dummy')
     | Currencies: array of available currency ISO codes
     | Default currencies: array of default base/target currencies
     | Min/max duration: configure allowed report duration range (in weeks)
@@ -141,7 +142,7 @@ return [
     |
     */
 
-    'currency_api' => 'dummy',
+    'currency_api' => 'fixer',
 
     'currencies' => [
         'AUD', 'BGN', 'BRL', 'CAD', 'CHF', 'CNY', 'CZK', 'DKK', 'EUR', 'GBP',

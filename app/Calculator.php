@@ -226,12 +226,11 @@ class Calculator
             return $this->latest;
         }
 
-        if (!$this->isApiQueryNeeded()) {
+        if (!$this->isApiQueryNeeded() || !$this->latest = $this->query()) {
             return $this->latest = CurrencyRate::where('date', $this->latestDate)->get();
+        } else {
+            return $this->latest;
         }
-
-        // query the API for latest rates
-        return $this->latest = $this->query();
     }
 
     /**
@@ -287,10 +286,11 @@ class Calculator
             $results = $api->historical(new \DateTime($date), 'EUR');
         } else {
             $results = $api->latest('EUR');
+            $date = date('Y-m-d');
         }
 
         // verify that we got the results we asked for
-        if ($date && $results->date->format('Y-m-d') !== $date) {
+        if ($results->date->format('Y-m-d') !== $date) {
             return null;
         }
 
