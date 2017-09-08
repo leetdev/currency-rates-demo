@@ -1,5 +1,16 @@
 <?php
 
+// Overwrite DB environment variables in case DATABASE_URL is set.
+if ($url = getenv('DATABASE_URL')) {
+    $url = parse_url($url);
+    putenv('DB_CONNECTION=' . $url['scheme']);
+    putenv('DB_USERNAME=' . $url['user']);
+    putenv('DB_PASSWORD=' . $url['pass']);
+    putenv('DB_HOST=' . $url['host']);
+    putenv('DB_PORT=' . $url['port']);
+    putenv('DB_DATABASE=' . substr($url["path"], 1));
+}
+
 return [
 
     /*
