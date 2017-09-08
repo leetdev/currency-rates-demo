@@ -24,5 +24,4 @@ abstract class AbstractProvider implements ProviderContract
     {
         $this->request = $request;
     }
-
 }

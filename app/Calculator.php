@@ -16,6 +16,10 @@ class Calculator
     protected $chartData;
     protected $hilo;
 
+    // counters
+    protected $totalQueries = 0;
+    protected $apiQueries = 0;
+
     // used internally
     protected $parameters;
     protected $latestDate;
@@ -36,7 +40,6 @@ class Calculator
      */
     public function prepare(CurrencyCalculation $calculation)
     {
-ini_set('max_execution_time', 0);
         $this->parameters = $calculation;
         $today = date('Y-m-d');
         $weekNumber = date('W');
@@ -161,6 +164,16 @@ ini_set('max_execution_time', 0);
     }
 
     /**
+     * Return query counters
+     *
+     * @return array
+     */
+    public function getCounters()
+    {
+        return [$this->apiQueries, $this->totalQueries];
+    }
+
+    /**
      * Return date of given weekday from the same week as given date.
      *
      * @param string $date
@@ -178,13 +191,15 @@ ini_set('max_execution_time', 0);
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function getRates($date, $forceApi = false)
+    public function getRates($date, $forceApi = false)
     {
+        $this->totalQueries++;
+
         if (!$forceApi) {
             $rates = CurrencyRate::where('date', $date)->get();
             if (!$rates->isEmpty()) {
                 // this check provides sanity check against incomplete rate data
-                if ($rates->count() !== count(config('app.currencies'))) {
+                if ($rates->count() < count(config('app.currencies')) - 1) {
                     // clear all rows for the given date, then proceed to query the API
                     $rates->each(function ($row) {
                         $row->delete();
@@ -205,7 +220,7 @@ ini_set('max_execution_time', 0);
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function getLatest()
+    public function getLatest()
     {
         if ($this->latest) {
             return $this->latest;
@@ -264,6 +279,8 @@ ini_set('max_execution_time', 0);
      */
     protected function query($date = null)
     {
+        $this->apiQueries++;
+
         // run api query
         $api = \CurrencyRates::driver(config('app.currency_api'));
         if ($date) {
