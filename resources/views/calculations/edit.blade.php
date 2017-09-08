@@ -34,7 +34,7 @@
   <div class="form-group row">
     {!! Form::label('duration', 'Duration (weeks)', ['class' => 'col-md-3 col-form-label']) !!}
     <div class="col-md-2">
-      {!! Form::number('duration', config('app.default_duration'), ['class' => 'form-control', 'min' => config('app.min_duration'), 'max' => config('app.max_duration')]) !!}
+      {!! Form::number('duration', null, ['class' => 'form-control', 'min' => config('app.min_duration'), 'max' => config('app.max_duration')]) !!}
     </div>
   </div>
 
