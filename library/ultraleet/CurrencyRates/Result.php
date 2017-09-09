@@ -104,6 +104,7 @@ class Result implements ResultContract
             return $this->$getter();
         }
 
+        trigger_error('Undefined property: ' . get_class() . '::$' . $name, E_USER_NOTICE);
         return null;
     }
 }
