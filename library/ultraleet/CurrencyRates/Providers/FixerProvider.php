@@ -17,13 +17,14 @@ class FixerProvider extends AbstractProvider
     protected $url = "http://api.fixer.io";
 
     /**
-     * Perform provider specific initialization.
+     * Class constructor.
      *
+     * @param \GuzzleHttp\Client $guzzle
      * @return void
      */
-    public function init()
+    public function __construct(GuzzleClient $guzzle)
     {
-        $this->guzzle = new GuzzleClient();
+        $this->guzzle = $guzzle;
     }
 
     /**

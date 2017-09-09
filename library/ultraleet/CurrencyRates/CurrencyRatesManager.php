@@ -6,6 +6,7 @@ use Ultraleet\CurrencyRates\Contracts\Factory;
 use Ultraleet\CurrencyRates\Providers\DummyProvider;
 use Ultraleet\CurrencyRates\Providers\FixerProvider;
 use Illuminate\Support\Manager;
+use GuzzleHttp\Client as GuzzleClient;
 use InvalidArgumentException;
 
 class CurrencyRatesManager extends Manager implements Factory
@@ -18,7 +19,7 @@ class CurrencyRatesManager extends Manager implements Factory
      */
     protected function createFixerDriver()
     {
-        return new FixerProvider($this->app['request']);
+        return new FixerProvider(new GuzzleClient());
     }
 
     /**
@@ -28,7 +29,7 @@ class CurrencyRatesManager extends Manager implements Factory
      */
     protected function createDummyDriver()
     {
-        return new DummyProvider($this->app['request']);
+        return new DummyProvider();
     }
 
     /**
