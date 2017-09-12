@@ -72,7 +72,7 @@ class Calculator
             ->get();
 
         // iterate over weeks we need in the report
-        while ($monday && strtotime($monday) < strtotime($latestDate)) {
+        while (strtotime($monday) <= strtotime($latestDate)) {
             $this->calculateWeek($monday);
 
             // increment week pointer
@@ -258,11 +258,11 @@ class Calculator
             $results = $api->historical(new \DateTime($date), 'EUR');
         } else {
             $results = $api->latest('EUR');
-            $date = date('Y-m-d');
         }
 
         // verify that we got the results we asked for
-        if ($results->date->format('Y-m-d') !== $date) {
+        if (($date && $results->date->format('Y-m-d') !== $date) ||
+            $results->date->format('Y-m-d') == $this->latestDate->format('Y-m-d')) {
             return null;
         }
 
@@ -277,6 +277,11 @@ class Calculator
 
             // add to collection
             $rates->push($rate);
+        }
+
+        // update latest date
+        if (!$date) {
+            $this->latestDate = $rate->date;
         }
 
         // return rates collection
