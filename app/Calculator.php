@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Cache;
 class Calculator
 {
     // used for storing results
+    protected $rates;
     protected $weeks;
     protected $chartData;
     protected $hilo;
@@ -24,13 +25,15 @@ class Calculator
     protected $parameters;
     protected $latestDate;
     protected $latest;
+    protected $dbBase;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-
+        // store default base currency
+        $this->dbBase = config('app.default_currencies')[0];
     }
 
     /**
@@ -45,51 +48,29 @@ class Calculator
         $weekNumber = date('W');
 
         // retrieve cached calculation results from db
-        $weeks = $calculation->weeks()
-            ->orderBy('year', 'desc')       // order
+        $this->weeks = $calculation->weeks()
+            ->orderBy('year', 'desc')           // order
             ->orderBy('week', 'desc')
-            ->take($calculation->duration)  // limit
-            ->get()                         // fetch
-            ->reverse();                    // oldest first
+            ->take($calculation->duration + 1)  // limit
+            ->get()                             // fetch
+            ->reverse();                        // oldest first
 
-        // determine if we need to generate/update results cache
-        $needsUpdate = false;
-        $latest = null;
+        // set the week pointer to first week we need to include in the report
         $latestDate = $this->getLatest()->first()->date;
-        if ($weeks->count() > 0) {
-            $latest = $weeks->last();
-            $nextMonday = date('Y-m-d', strtotime('next Monday ' . $latest->last_day));
+        $monday = date('Y-m-d', strtotime($latestDate . ' Monday this Week -' . $calculation->duration . ' Weeks '));
 
-            // update incomplete week if we can
-            if (!$latest->complete && strcmp($latestDate, $latest->last_day) > 0) {
-                $week = date('Y-m-d', strtotime($nextMonday . ' -1 Week'));
-                $latest->fill($this->calculateWeek($week));
-                $latest->save();
-            }
-
-            // set the week pointer to next week from last in the cache
-            if ($latest->week !== $weekNumber) {
-                $needsUpdate = $nextMonday;
-            }
-        } else {
-            // set the week pointer to first week we need to include in the report
-            $needsUpdate = date('Y-m-d', strtotime($latestDate . ' Monday this Week -' . $calculation->duration . ' Weeks '));
-        }
-
-        // update results
-        while ($needsUpdate && strtotime($needsUpdate) < strtotime($latestDate)) {
-            $data = $this->calculateWeek($needsUpdate);
-            if ($data) {
-                // create new week
-                $week = $calculation->weeks()->create($data);
-
-                // add week data to collection
-                $weeks->push($week);
-            }
+        // iterate over weeks we need in the report
+        while ($monday && strtotime($monday) < strtotime($latestDate)) {
+            $this->calculateWeek($monday);
 
             // increment week pointer
-            $needsUpdate = date('Y-m-d', strtotime($needsUpdate . ' +1 Week'));
+            $monday = date('Y-m-d', strtotime($monday . ' +1 Week'));
         }
+
+        // at this point, we should have at least as many weeks in the
+        // collection as we need. let's just truncate it
+        // (negative because we want the latest results)
+        $this->weeks = $this->weeks->take(-$calculation->duration);
 
         // prepare chart data
         $chartData = \Lava::DataTable();
@@ -106,7 +87,7 @@ class Calculator
 
         // populate chart data & find highest and lowest weeks & calculate profits
         $hi = $lo = $h = $l = 0;
-        foreach ($weeks as $week) {
+        foreach ($this->weeks as $week) {
             // add chart row
             $w = sprintf('%d-W%02d', $week->year, $week->week);
             $day = date('Y-m-d', strtotime($w));
@@ -123,11 +104,10 @@ class Calculator
             }
 
             // profit
-            $week->profit = $week->amount - $this->parameters->amount * $latestRate;
+            $week->profit = round($week->amount - $this->parameters->amount * $latestRate, 2);
         }
 
         // store results
-        $this->weeks = $weeks;
         $this->chartData = $chartData;
         $this->hilo = [$hi, $lo];
     }
@@ -171,19 +151,6 @@ class Calculator
     public function getCounters()
     {
         return [$this->apiQueries, $this->totalQueries];
-    }
-
-    /**
-     * Return date of given weekday from the same week as given date.
-     *
-     * @param string $date
-     * @param int $weekday
-     * @return string
-     */
-    public static function weekdayDate($date, $weekday = 1)
-    {
-        $dayofweek = date('w', strtotime($date));
-        $result    = date('Y-m-d', strtotime(($day - $dayofweek).' day', strtotime($date)));
     }
 
     /**
@@ -322,7 +289,7 @@ class Calculator
     protected function getCurrencyRate($rates, $base, $target)
     {
         // if base is the same as in the database, return rate as is
-        if ($base === config('app.default_currencies')[0]) {
+        if ($base === $this->dbBase) {
             $rate = $rates->first(function ($model) use ($target) {
                 return $model->currency === $target;
             });
@@ -331,13 +298,13 @@ class Calculator
         }
 
         // if target is the same as database base, return inverted rate
-        if ($target === config('app.default_currencies')[0]) {
+        if ($target === $this->dbBase) {
 
             $rate = $rates->first(function ($model) use ($base) {
                 return $model->currency === $base;
             });
 
-            return 1 / $rate->rate;
+            return round(1 / $rate->rate, 5);
         }
 
         // otherwise, rebase the rate
@@ -348,7 +315,7 @@ class Calculator
             return $model->currency === $target;
         });
 
-        return $rateTarget->rate / $rateBase->rate;
+        return round($rateTarget->rate / $rateBase->rate, 5);
     }
 
     /**
@@ -361,6 +328,17 @@ class Calculator
     {
         $params = $this->parameters;
         $rateMax = $rateMin = 0;
+        $year = date('Y', strtotime($monday));
+        $week = date('W', strtotime($monday));
+
+        // find out whether we need to add/update the week in question
+        $existing = $this->weeks->first(function ($value) use ($year, $week) {
+            return $value->year == $year && $value->week == $week;
+        });
+        if ($existing && $existing->complete) {
+            // no need to (re)calculate
+            return;
+        }
 
         // get rates for all working days of the week
         for ($i = 0; $i < 5; $i++) {
@@ -393,23 +371,44 @@ class Calculator
 
         // no rates found, abort
         if (!isset($lastDay)) {
-            return null;
+            return;
         }
 
         // determine if this week has been completed
         $complete = strcmp($this->latestDate, $date) > 0 // not current week
                  || date('w', strtotime($date)) === 4;   // last day is friday
 
-        // return data
-        return [
-            'year' => date('Y', strtotime($monday)),
-            'week' => date('W', strtotime($monday)),
+        // populate
+        $data = [
+            'year' => $year,
+            'week' => $week,
             'rate' => $rate, // this will be set to the rate of the last recorded day
             'rate_min' => $rateMin,
             'rate_max' => $rateMax,
-            'amount' => $params->amount * $rate,
+            'amount' => round($params->amount * $rate, 2),
             'complete' => $complete,
             'last_day' => $lastDay,
         ];
+
+        // update existing week
+        if ($existing) {
+            $existing->fill($data);
+            $existing->save();
+            return;
+        }
+
+        // create new week
+        $model = $params->weeks()->create($data);
+
+        // determine whether we are prepending or appending to the collection
+        $first = $this->weeks->first();
+        if ($year < $first->year || $week < $first->week) {
+            // prepend
+            $this->weeks->prepend($model);
+        } else {
+            // append
+            $this->weeks->push($model);
+        }
+
     }
 }
