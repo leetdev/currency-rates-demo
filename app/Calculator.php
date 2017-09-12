@@ -34,6 +34,9 @@ class Calculator
     {
         // store default base currency
         $this->dbBase = config('app.default_currencies')[0];
+
+        // initialize
+        $this->rates = collect([]);
     }
 
     /**
@@ -58,6 +61,15 @@ class Calculator
         // set the week pointer to first week we need to include in the report
         $latestDate = $this->getLatest()->first()->date;
         $monday = date('Y-m-d', strtotime($latestDate . ' Monday this Week -' . $calculation->duration . ' Weeks '));
+
+        // load (potentially) needed exchange rates in a single query
+        $currencies = [];
+        if ($calculation->base != $this->dbBase) $currencies[] = $calculation->base;
+        if ($calculation->target != $this->dbBase) $currencies[] = $calculation->target;
+        $this->rates = CurrencyRate::where('date', '>=', $monday)
+            ->whereIn('currency', $currencies)
+            ->orderBy('date', 'asc')
+            ->get();
 
         // iterate over weeks we need in the report
         while ($monday && strtotime($monday) < strtotime($latestDate)) {
@@ -158,24 +170,13 @@ class Calculator
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getRates($date, $forceApi = false)
+    public function getRates($date)
     {
         $this->totalQueries++;
 
-        if (!$forceApi) {
-            $rates = CurrencyRate::where('date', $date)->get();
-            if (!$rates->isEmpty()) {
-                // this check provides sanity check against incomplete rate data
-                if ($rates->count() < count(config('app.currencies')) - 1) {
-                    // clear all rows for the given date, then proceed to query the API
-                    $rates->each(function ($row) {
-                        $row->delete();
-                    });
-                } else {
-                    // otherwise we're good, return cached rates
-                    return $rates;
-                }
-            }
+        $rates = $this->getRatesByDate($date);
+        if (!$rates->isEmpty()) {
+            return $rates;
         }
 
         // query via API
@@ -194,7 +195,7 @@ class Calculator
         }
 
         if (!$this->isApiQueryNeeded() || !$this->latest = $this->query()) {
-            return $this->latest = CurrencyRate::where('date', $this->latestDate)->get();
+            return $this->latest = $this->getRatesByDate($this->latestDate);
         } else {
             return $this->latest;
         }
@@ -207,7 +208,11 @@ class Calculator
      */
     protected function isApiQueryNeeded()
     {
-        $latest = CurrencyRate::orderBy('date', 'desc')->take(1)->get();
+        if ($this->rates->isEmpty()) {
+            $latest = CurrencyRate::orderBy('date', 'desc')->take(1)->get();
+        } else {
+            $latest = $this->rates->take(-1);
+        }
 
         // nothing in the db
         if ($latest->isEmpty()) {
@@ -240,7 +245,7 @@ class Calculator
     /**
      * Queries the API for rates for the given date.
      *
-     * @param mixed $date Omit to query for latest rates.
+     * @param string|null $date Omit to query for latest rates.
      * @return \Illuminate\Support\Collection
      */
     protected function query($date = null)
@@ -316,6 +321,24 @@ class Calculator
         });
 
         return round($rateTarget->rate / $rateBase->rate, 5);
+    }
+
+    /**
+     * Returns collection of exchange rates for the given date.
+     *
+     * @param string $date
+     * @return \Illuminate\Support\Collection
+     */
+    protected function getRatesByDate($date)
+    {
+        if ($this->rates->isEmpty()) {
+            // no cache, query directly
+            return CurrencyRate::where('date', $date)->get();
+        }
+
+        return $this->rates->filter(function ($value) use ($date) {
+            return strtotime($value->date) == strtotime($date);
+        });
     }
 
     /**
