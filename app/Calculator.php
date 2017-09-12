@@ -430,7 +430,7 @@ class Calculator
 
         // determine whether we are prepending or appending to the collection
         $first = $this->weeks->first();
-        if ($year < $first->year || $week < $first->week) {
+        if ($first && ($year < $first->year || $week < $first->week)) {
             // prepend
             $this->weeks->prepend($model);
         } else {
