@@ -2627,17 +2627,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ultraleettech/currency-rates.git",
-                "reference": "74ef26a51ebda4e35b1edf905ba382e1e17acb17"
+                "reference": "9ef9aa17161d0e5d97880d67996b4c2e7024439b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ultraleettech/currency-rates/zipball/74ef26a51ebda4e35b1edf905ba382e1e17acb17",
-                "reference": "74ef26a51ebda4e35b1edf905ba382e1e17acb17",
+                "url": "https://api.github.com/repos/ultraleettech/currency-rates/zipball/9ef9aa17161d0e5d97880d67996b4c2e7024439b",
+                "reference": "9ef9aa17161d0e5d97880d67996b4c2e7024439b",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/guzzle": "~6.0",
                 "php": "^7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.9",
+                "phpunit/phpunit": "^6.3"
             },
             "type": "library",
             "extra": {
@@ -2653,6 +2657,11 @@
             "autoload": {
                 "psr-4": {
                     "Ultraleet\\CurrencyRates\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\": "tests/"
                 }
             },
             "license": [
@@ -2678,7 +2687,7 @@
                 "source": "https://github.com/ultraleettech/currency-rates/tree/master",
                 "issues": "https://github.com/ultraleettech/currency-rates/issues"
             },
-            "time": "2017-09-12T11:45:23+00:00"
+            "time": "2017-09-13T10:02:46+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
