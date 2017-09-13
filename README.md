@@ -16,7 +16,7 @@ To get started, clone this repository, change to its root directory using your f
 
 ### Web Server
 
-After installation, you need to set up your web server to serve this app from its `public` directory.
+After installation, you need to set up your web server to serve this app from its `public` directory. Alternatively, you can use PHP's built-in development server to serve the application, by issuing the `php artisan serve` command. This will start a server at `http://localhost:8000`.
 
 ### .env
 
@@ -36,29 +36,29 @@ Application specific configuration can be found in `config/app.php`. Scroll down
 
 Create a new database for the app. We have tested with MySQL and Postgres, but technically you should be able to use anything that is supported by the Laravel framework. After creating the database, update the `DB_*` variables in your `.env` file to reflect the connection type and credentials.
 
-Next, run the `php artisan migrate` command from the command prompt. This will generate all the tables needed to house application data. If this completes successfully, you can run `php artisan currency:cache`. This will get the currency rates for the maximum configured period (default is 52 weeks) of historical data and cache the results in the database.
+Next, run the `php artisan migrate` command from the command prompt. This will generate all the tables needed to house application data. If this completes successfully, you can run `php artisan currency:cache`. This will fetch the currency rates for the maximum configured period (default is 52 weeks) of historical data and cache the results in the database.
 
 ### Authentication API
 
-To enable Google Sign-In authentication, you will need to create the necessary API credentials. Read [this guide](https://developers.google.com/+/web/api/rest/oauth) for detailed instructions. When creating credentials, you will need to select *Oauth client ID*, and then *Web application* as its type. When entering restrictions, add the base URL of your application under *Authorised JavaScript origins*, and `[base URL]/login/google/callback` under *Authorised redirect URIs*.
+To enable Google Sign-In authentication, you will need to create the necessary API credentials. Read [this guide](https://developers.google.com/+/web/api/rest/oauth) for detailed instructions. When creating credentials, you will need to select *Oauth client ID*, and then *Web application* as the type. When entering restrictions, add the base URL of your application under *Authorised JavaScript origins*, and `[base URL]/login/google/callback` under *Authorised redirect URIs*.
 
 When this is done, update your `.env` file to reflect your client ID, secret, and callback URL.
 
 ### All Done!
 
-The application should now be fully set up and ready to use! Simply point your browser to its base URL. The operation should be fairly straight forward, so we will not get into any additional details here.
+The application should now be fully set up and ready to use! Simply point your browser to its base URL. Its operation should be fairly straight forward, so we will not get into any additional details here.
 
 ## Extending
 
 ### Authentication Providers
 
-This application uses Laravel Socialite for managing authentication. It provides some of the most common adapters (acebook, Twitter, Google, LinkedIn, GitHub and Bitbucket) out of the box. In addition, there is a community driven [Socialite Providers](https://socialiteproviders.github.io/) website that provides many more. Follow the instructions there to install any adapter you need, or in fact create a custom one.
+This application uses Laravel Socialite for managing authentication. It provides some of the most common adapters (Facebook, Twitter, Google, LinkedIn, GitHub and Bitbucket) out of the box. In addition, there is a community driven [Socialite Providers](https://socialiteproviders.github.io/) website that provides many more. Follow the instructions there to install any adapter you need, or in fact create a custom one.
 
 To set up the app to support other providers, follow these simple steps:
 
-1. Edit `config/services.php` and duplicate the 'google' array. Replace the word 'google' with appropriate  name.
-2. Do the same in your `.env` file after setting up your API credentials at the provider's website.
-3. Edit `resources/views/login.blade.php`. Duplicate the <li> element in there and edit as needed.
+1. Edit `config/services.php` and duplicate the 'google' array. Replace the word 'google' with the appropriate name.
+2. Do the same in your `.env` file after setting up your API credentials at the provider's website. Set these variable to the appropriate values.
+3. Edit `resources/views/login.blade.php`. Duplicate the `<li>` element in there and edit as needed.
 
 That's it! You should now be able to register/login using the new provider.
 
