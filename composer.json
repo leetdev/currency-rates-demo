@@ -4,12 +4,6 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/ultraleettech/currency-rates"
-        }
-    ],
     "require": {
         "php": ">=7.0.0",
         "fideloper/proxy": "~3.3",
@@ -19,7 +13,7 @@
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.5",
-        "ultraleet/currency-rates": "dev-master"
+        "ultraleet/currency-rates": "~1.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.0",

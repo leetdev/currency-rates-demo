@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "12353d6df7c444e8cb8dae9d6425ebf8",
+    "content-hash": "4c8bfd33dd06035a23f2c9c88edb63d1",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -683,16 +683,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.5.3",
+            "version": "v5.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "779a98d3b2ebed2128db1a668dcc10a65c9b01be"
+                "reference": "d3e0493bead126cf7fb9a005c64e6b58a9190e51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/779a98d3b2ebed2128db1a668dcc10a65c9b01be",
-                "reference": "779a98d3b2ebed2128db1a668dcc10a65c9b01be",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d3e0493bead126cf7fb9a005c64e6b58a9190e51",
+                "reference": "d3e0493bead126cf7fb9a005c64e6b58a9190e51",
                 "shasum": ""
             },
             "require": {
@@ -811,7 +811,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-09-07T13:50:21+00:00"
+            "time": "2017-09-13T13:36:29+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -2623,25 +2623,25 @@
         },
         {
             "name": "ultraleet/currency-rates",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ultraleettech/currency-rates.git",
-                "reference": "9ef9aa17161d0e5d97880d67996b4c2e7024439b"
+                "reference": "5042e96c07a95f41a98dc9251710c81d67fd1508"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ultraleettech/currency-rates/zipball/9ef9aa17161d0e5d97880d67996b4c2e7024439b",
-                "reference": "9ef9aa17161d0e5d97880d67996b4c2e7024439b",
+                "url": "https://api.github.com/repos/ultraleettech/currency-rates/zipball/5042e96c07a95f41a98dc9251710c81d67fd1508",
+                "reference": "5042e96c07a95f41a98dc9251710c81d67fd1508",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/guzzle": "~6.0",
-                "php": "^7.0"
+                "php": ">=5.6.0"
             },
             "require-dev": {
                 "mockery/mockery": "^0.9.9",
-                "phpunit/phpunit": "^6.3"
+                "phpunit/phpunit": "~4.0|~5.0"
             },
             "type": "library",
             "extra": {
@@ -2659,11 +2659,7 @@
                     "Ultraleet\\CurrencyRates\\": "src"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Tests\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2676,18 +2672,14 @@
             ],
             "description": "Library for interacting with various currency exchange rates APIs",
             "keywords": [
+                "FixerIo",
                 "api",
                 "currency",
                 "fixer",
-                "fixerio",
                 "laravel",
                 "rates"
             ],
-            "support": {
-                "source": "https://github.com/ultraleettech/currency-rates/tree/master",
-                "issues": "https://github.com/ultraleettech/currency-rates/issues"
-            },
-            "time": "2017-09-13T10:02:46+00:00"
+            "time": "2017-09-13T14:48:34+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -4543,9 +4535,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "ultraleet/currency-rates": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
