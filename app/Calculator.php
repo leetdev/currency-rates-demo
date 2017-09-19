@@ -255,10 +255,9 @@ class Calculator
         // run api query
         $api = \CurrencyRates::driver(config('app.currency_api'));
         if ($date) {
-            $results = $api->historical(new \DateTime($date), 'EUR');
-        } else {
-            $results = $api->latest('EUR');
+            $api->date($date);
         }
+        $results = $api->base('EUR')->get();
 
         // verify that we got the results we asked for
         if (($date && $results->date->format('Y-m-d') !== $date) ||

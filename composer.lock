@@ -2623,16 +2623,16 @@
         },
         {
             "name": "ultraleet/currency-rates",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ultraleettech/currency-rates.git",
-                "reference": "5042e96c07a95f41a98dc9251710c81d67fd1508"
+                "reference": "08b9a957658faa0d36463911b72e335756ef6f3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ultraleettech/currency-rates/zipball/5042e96c07a95f41a98dc9251710c81d67fd1508",
-                "reference": "5042e96c07a95f41a98dc9251710c81d67fd1508",
+                "url": "https://api.github.com/repos/ultraleettech/currency-rates/zipball/08b9a957658faa0d36463911b72e335756ef6f3d",
+                "reference": "08b9a957658faa0d36463911b72e335756ef6f3d",
                 "shasum": ""
             },
             "require": {
@@ -2640,8 +2640,9 @@
                 "php": ">=5.6.0"
             },
             "require-dev": {
+                "illuminate/support": "^5.4",
                 "mockery/mockery": "^0.9.9",
-                "phpunit/phpunit": "~4.0|~5.0"
+                "phpunit/phpunit": "~5.0|~6.0"
             },
             "type": "library",
             "extra": {
@@ -2666,7 +2667,10 @@
             "authors": [
                 {
                     "name": "Rene Aavik",
-                    "email": "renx81@gmail.com",
+                    "email": "renx81@gmail.com"
+                },
+                {
+                    "name": "Ultraleet Technologies",
                     "homepage": "https://github.com/ultraleettech/"
                 }
             ],
@@ -2679,7 +2683,7 @@
                 "laravel",
                 "rates"
             ],
-            "time": "2017-09-13T14:48:34+00:00"
+            "time": "2017-09-19T05:31:22+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -2735,16 +2739,16 @@
     "packages-dev": [
         {
             "name": "barryvdh/laravel-debugbar",
-            "version": "v3.0.1",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
-                "reference": "bce341e3194bbeffa60ac782d645067557f5075e"
+                "reference": "01a859752094e00aa8548832312366753272f8af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/bce341e3194bbeffa60ac782d645067557f5075e",
-                "reference": "bce341e3194bbeffa60ac782d645067557f5075e",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/01a859752094e00aa8548832312366753272f8af",
+                "reference": "01a859752094e00aa8548832312366753272f8af",
                 "shasum": ""
             },
             "require": {
@@ -2799,7 +2803,7 @@
                 "profiler",
                 "webprofiler"
             ],
-            "time": "2017-08-29T08:54:25+00:00"
+            "time": "2017-09-18T13:32:46+00:00"
         },
         {
             "name": "doctrine/instantiator",
