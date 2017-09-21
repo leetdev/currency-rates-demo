@@ -683,16 +683,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.5.4",
+            "version": "v5.5.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "d3e0493bead126cf7fb9a005c64e6b58a9190e51"
+                "reference": "a0fdfd2c90318c107b6a8d69189ec9a6607379e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/d3e0493bead126cf7fb9a005c64e6b58a9190e51",
-                "reference": "d3e0493bead126cf7fb9a005c64e6b58a9190e51",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/a0fdfd2c90318c107b6a8d69189ec9a6607379e3",
+                "reference": "a0fdfd2c90318c107b6a8d69189ec9a6607379e3",
                 "shasum": ""
             },
             "require": {
@@ -811,7 +811,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-09-13T13:36:29+00:00"
+            "time": "2017-09-20T13:45:36+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -2623,16 +2623,16 @@
         },
         {
             "name": "ultraleet/currency-rates",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ultraleettech/currency-rates.git",
-                "reference": "08b9a957658faa0d36463911b72e335756ef6f3d"
+                "reference": "fc2a67d76e8d66431def5e1c2fd007b21830dfbd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ultraleettech/currency-rates/zipball/08b9a957658faa0d36463911b72e335756ef6f3d",
-                "reference": "08b9a957658faa0d36463911b72e335756ef6f3d",
+                "url": "https://api.github.com/repos/ultraleettech/currency-rates/zipball/fc2a67d76e8d66431def5e1c2fd007b21830dfbd",
+                "reference": "fc2a67d76e8d66431def5e1c2fd007b21830dfbd",
                 "shasum": ""
             },
             "require": {
@@ -2683,7 +2683,7 @@
                 "laravel",
                 "rates"
             ],
-            "time": "2017-09-19T05:31:22+00:00"
+            "time": "2017-09-21T10:42:15+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
