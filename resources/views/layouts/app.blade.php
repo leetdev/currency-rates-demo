@@ -12,13 +12,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
   </head>
   <body>
-    <div class="container">
-      <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="{{ url('/') }}">Currency Exchange Rates</a>
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand" href="{{ url('/') }}">Currency Exchange Rates</a>
 
-        @includeWhen(Auth::check(), 'partials.user')
-      </nav>
-
+      @includeWhen(Auth::check(), 'partials.user')
+    </nav>
+    <div class="container main-content">
       <h3>@yield('title')</h3>
 
       <div class="row">
