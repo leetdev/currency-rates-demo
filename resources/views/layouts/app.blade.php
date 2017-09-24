@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Currency Exchange Rates</title>
+    <title>{{ config('app.name') }} {{ config('app.version') }}</title>
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <!-- Bootstrap CSS -->
@@ -13,7 +13,7 @@
   </head>
   <body>
     <nav class="navbar navbar-light bg-light">
-      <a class="navbar-brand" href="{{ url('/') }}">Currency Exchange Rates</a>
+      <a class="navbar-brand" href="{{ url('/') }}">{{ config('app.name') }} {{ config('app.version') }}</a>
 
       @includeWhen(Auth::check(), 'partials.user')
     </nav>
